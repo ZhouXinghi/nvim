@@ -73,6 +73,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ZhouXinghi/vim-snippets'
 Plug 'puremourning/vimspector'
 Plug 'szw/vim-maximizer'
+Plug 'lervag/vimtex'
 call plug#end()
 
 "" Coc configuration
@@ -242,6 +243,7 @@ let g:coc_global_extensions = [
     \ 'coc-explorer',
     \ 'coc-translator',
     \ 'coc-snippets',
+    \ 'coc-vimtex'
 	\ ]
 
 
@@ -251,3 +253,19 @@ let g:lightline = {
 
 colorscheme snazzy
 
+
+" =================================
+" =================================
+" =================================
+" vimtex configuration
+" =================================
+" =================================
+" =================================
+let g:tex_flavor = 'latex'
+let g:vimtex_quickfix_mode = 0
+let g:vimtex_general_viewer = 'zathura'
+let g:vimtex_view_method = 'zathura'
+set conceallevel=1
+let g:tex_conceal='abdmg'
+" default is 'nvr'
+" let g:vimtex_compiler_progname - 'nvr'
