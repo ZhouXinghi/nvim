@@ -5,8 +5,11 @@ int indf()
 }
 int main()
 {
-    std::cout << "hello" << std::endl;
-        
+    std::cout << "hello" << std::endl;   
+    int i = 0;
+    int nihao = 9;
+    nihao = 2;
+    indf();
     return 0;
 }
 

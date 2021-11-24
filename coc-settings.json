@@ -28,23 +28,20 @@
 		"unit": "\uf475",
 		"value": "\uf89f",
 		"variable": "\ue71b"
-  },
-  "snippets.ultisnips.directories": [
-      "UltiSnips",
-      "$HOME/.config/nvim/UltiSnips",
-      "$HOME/.config/nvim/plugged/vim-snippets/UltiSnips"
-  ],
-  "languageserver": {
-  "ccls": {
-    "command": "ccls",
-    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
-    "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
-    "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
+    },
+    "languageserver": {
+        "ccls": {
+          "command": "ccls",
+          "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+          "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+          "initializationOptions": {
+              "cache": {
+                "directory": "/tmp/ccls"
+              }
+           }
         }
-      }
-  }
-}
+    },
+    "explorer.file.showHiddenFiles": true,
+    "explorer.icon.enableNerdfont": true
 }
 
