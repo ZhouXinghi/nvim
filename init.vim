@@ -6,6 +6,8 @@ set relativenumber
 set cursorline
 set wrap
 set showcmd
+set spell 
+set spelllang=en,de
 
 " autocmd TextChanged,TextChangedI <buffer> silent write
 
@@ -46,14 +48,20 @@ noremap N Nzz
 noremap <LEADER><CR> :nohlsearch<CR>		' no more highlight
 inoremap <C-h> <left>
 inoremap <c-l> <right>
-inoremap ( ()<left>
-inoremap () ()
-inoremap " ""<left>
-inoremap "" ""
-inoremap [ []<left>
-inoremap [] []
-inoremap { {}<left>
-inoremap {} {}
+" inoremap ( ()<left>
+" inoremap () ()
+" inoremap " ""<left>
+" inoremap "" ""
+" inoremap [ []<left>
+" inoremap [] []
+" inoremap { {}<left>
+" inoremap {} {}
+" -----------spell check 
+inoremap ;; <C-g>u<Esc>[s1z=`]a<C-g>u
+" break chain rule
+inoremap <space> <space><C-g>u
+inoremap <space> <space><C-g>u
+inoremap <space> <space><C-g>u
 
 " Copy to system clipboard
 " vnoremap Y "+y
