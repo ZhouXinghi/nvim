@@ -109,6 +109,7 @@ Plug 'tpope/vim-surround'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'kevinhwang91/rnvimr'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 "" Coc configuration
@@ -407,6 +408,7 @@ endif
 " Theme
 syntax enable
 colorscheme OceanicNext
+" colorscheme nord
 
 " "Transparancy
 hi Normal guibg=NONE ctermbg=NONE
