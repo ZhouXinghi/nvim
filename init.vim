@@ -107,6 +107,8 @@ Plug 'mhartington/oceanic-next'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'kevinhwang91/rnvimr'
 call plug#end()
 
 "" Coc configuration
@@ -312,6 +314,11 @@ let g:vimtex_quickfix_mode = 0
 " let g:vimtex_general_viewer = 'zathura'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
+
+augroup vimtex
+  autocmd!
+  autocmd User VimtexEventView call b:vimtex.viewer.focus_vim()
+augroup END
 
 " default is 'nvr'
 " 2021-10-25: Better inverse search~
@@ -533,3 +540,18 @@ let g:mkdp_page_title = '「${name}」'
 " recognized filetypes
 " these filetypes will have MarkdownPreview... commands
 let g:mkdp_filetypes = ['markdown']
+
+" keybindings
+nmap <C-p> <Plug>MarkdownPreviewToggle
+
+
+" ==============================vim-table-mode==========================
+" in insert mode || enable talbe mode and __ disable table mode
+" function! s:isAtStartOfLine(mapping)
+"   let text_before_cursor = getline('.')[0 : col('.')-1]
+"   let mapping_pattern = '\V' . escape(a:mapping, '\')
+"   let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
+"   return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
+" endfunction
+"
+" inoreabbrev <expr> <bar><bar>
