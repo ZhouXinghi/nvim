@@ -63,9 +63,10 @@ inoremap <space> <space><C-g>u
 inoremap <space> <space><C-g>u
 inoremap <space> <space><C-g>u
 
-" Copy to system clipboard
-" vnoremap Y "+y
-
+" Copy to number 1 clipboard
+vnoremap ty "ty
+nnoremap tp "tp
+ 
 
 " map sr :set splitright<CR>:vsplit<CR>
 " map sl :set nosplitright<CR>:vsplit<CR>
@@ -97,7 +98,7 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-python'}
 Plug 'lervag/vimtex'
-" Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ult snips'
 Plug 'ZhouXinghi/vim-snippets'
 Plug 'itchyny/vim-cursorword'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -110,6 +111,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'kevinhwang91/rnvimr'
 Plug 'arcticicestudio/nord-vim'
+Plug 'ap/vim-css-color'
 call plug#end()
 
 "" Coc configuration
@@ -557,3 +559,6 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 " endfunction
 "
 " inoreabbrev <expr> <bar><bar>
+
+" ==============================rnvimr==========================
+nnoremap <silent> ran :RnvimrToggle<CR>
