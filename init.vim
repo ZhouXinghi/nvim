@@ -6,7 +6,7 @@ set relativenumber
 set cursorline
 set wrap
 set showcmd
-set spell 
+" set spell
 set spelllang=en,de
 
 " autocmd TextChanged,TextChangedI <buffer> silent write
@@ -31,7 +31,7 @@ set autoindent
 map s <nop>
 map S :w<CR>
 map Q :q<CR>					' exit
-" map D :source $MYVIMRC<CR>			' use the init.vim
+map D :source $MYVIMRC<CR>			' use the init.vim
 
 " noremap i k
 " noremap k j
@@ -94,12 +94,12 @@ map tc :tabc<CR>
 call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'connorholyday/vim-snazzy'
-Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-peekaboo'   " to see the register
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-python'}
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-python'}
 Plug 'lervag/vimtex'
 " Plug 'SirVer/ult snips'
-Plug 'ZhouXinghi/vim-snippets'
+" Plug 'ZhouXinghi/vim-snippets'
 Plug 'itchyny/vim-cursorword'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -111,29 +111,54 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'kevinhwang91/rnvimr'
 Plug 'arcticicestudio/nord-vim'
+Plug 'dracula/vim', { 'as': 'dracula'}
 Plug 'ap/vim-css-color'
 call plug#end()
 
 "" Coc configuration
+
+"  coc extensions
+let g:coc_global_extensions = [  
+    \ 'coc-json',
+    \ 'coc-vimlsp',
+    \ 'coc-texlab',
+    \ 'coc-clangd',
+    \ 'coc-sh',
+    \ 'coc-jedi',
+    \ 'coc-pyright',
+    \ 'coc-snippets',
+    \ 'coc-vimtex'
+    \ ]
+" scroll the floating preview window
+inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+
+    " \ 'coc-python',
+    " \ 'coc-marketplace',
+    " \ 'coc-explorer',
+    " \ 'coc-translator',
+    " \ 'coc-snippets',
+    " \ 'coc-vimtex'
+                
 "
 "
 "
-" Set internal encoding of vim, not needed on neovim, since coc.nvim using some
-" unicode characters in the file autoload/float.vim
+" " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
+" " unicode characters in the file autoload/float.vim
 set encoding=utf-8
-
-" TextEdit might fail if hidden is not set.
+"
+" " TextEdit might fail if hidden is not set.
 set hidden
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
+"
+" " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" " delays and poor user experience.
 set updatetime=100
-
-" Don't pass messages to |ins-completion-menu|.
+"
+" " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
+"
+" " Always show the signcolumn, otherwise it would shift the text each time
+" " diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")
   " Recently vim can merge signcolumn and number column into one
   set signcolumn=number
@@ -141,9 +166,11 @@ else
   set signcolumn=yes
 endif
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
+
+"
+" " Use tab for trigger completion with characters ahead and navigate.
+" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -154,75 +181,76 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Use <c-space> to trigger completion.
+"
+" " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
+"
+" " Make <CR> auto-select the first completion item and notify coc.nvim to
+" " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+"
+" " Use `[g` and `]g` to navigate diagnostics
+" " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-
-" GoTo code navigation.
+"
+"
+" " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
-" Use <leader>h to show documentation in preview window.
-nnoremap <silent> <LEADER>he :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
+"
+" " Use <leader>h to show documentation in preview window.
+" nnoremap <silent> <LEADER>he :call <SID>show_documentation()<CR>
+"
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   elseif (coc#rpc#ready())
+"     call CocActionAsync('doHover')
+"   else
+"     execute '!' . &keywordprg . " " . expand('<cword>')
+"   endif
+" endfunction
+"
+" " Highlight the symbol and its references when holding the cursor.
+" " autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+" " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-map <leader>f  <Plug>(coc-format-selected)
+"
+" " Formatting selected code.
+vmap <leader>f  <Plug>(coc-fommmt-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-
-" " Applying codeAction to the selected region.
-" " Example: `<leader>aap` for current paragraph
-" xmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap <leader>a  <Plug>(coc-codeaction-selected)
-" 
-" " Remap keys for applying codeAction to the current buffer.
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" " Apply AutoFix to problem on the current line.
-" nmap <leader>qf  <Plug>(coc-fix-current)
-" 
-" " Map function and class text objects
-" " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-" xmap if <Plug>(coc-funcobj-i)
-" omap if <Plug>(coc-funcobj-i)
-" xmap af <Plug>(coc-funcobj-a)
-" omap af <Plug>(coc-funcobj-a)
-" xmap ic <Plug>(coc-classobj-i)
-" omap ic <Plug>(coc-classobj-i)
-" xmap ac <Plug>(coc-classobj-a)
-" omap ac <Plug>(coc-classobj-a)
-" 
-" coc-explorer
-nmap <space>e <Cmd>CocCommand explorer<CR>
-nmap cc :CocCommand<CR>
-
+"
+" " " Applying codeAction to the selected region.
+" " " Example: `<leader>aap` for current paragraph
+" " xmap <leader>a  <Plug>(coc-codeaction-selected)
+" " nmap <leader>a  <Plug>(coc-codeaction-selected)
+" "
+" " " Remap keys for applying codeAction to the current buffer.
+" " nmap <leader>ac  <Plug>(coc-codeaction)
+" " " Apply AutoFix to problem on the current line.
+" " nmap <leader>qf  <Plug>(coc-fix-current)
+" "
+" " " Map function and class text objects
+" " " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+" " xmap if <Plug>(coc-funcobj-i)
+" " omap if <Plug>(coc-funcobj-i)
+" " xmap af <Plug>(coc-funcobj-a)
+" " omap af <Plug>(coc-funcobj-a)
+" " xmap ic <Plug>(coc-classobj-i)
+" " omap ic <Plug>(coc-classobj-i)
+" " xmap ac <Plug>(coc-classobj-a)
+" " omap ac <Plug>(coc-classobj-a)
+" "
+" " coc-explorer
+" nmap <space>e <Cmd>CocCommand explorer<CR>
+" nmap cc :CocCommand<CR>
+"
 " coc snippets
 
 " Use <C-j> for trigger snippet expand.
@@ -232,10 +260,10 @@ imap <C-j> <Plug>(coc-snippets-expand)
 vmap <tab> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_next = '<C-j>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<s-tab>'
+let g:coc_snippet_prev = '<C-k>'
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
 " imap <tab> <Plug>(coc-snippets-expand-jump)
@@ -263,20 +291,20 @@ nmap <leader>o :Files<CR>
 " -----------------------------------------------
 " -----------------------------------------------
 " -----------------------------------------------
-let g:vimspector_enable_mappings = 'HUMAN'
-function! s:read_template_into_buffer(template)
-	" has to be a function to avoid the extra space fzf#run insers otherwise
-	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
-endfunction
-command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
-			\   'down': 20,
-			\   'sink': function('<sid>read_template_into_buffer')
-			\ })
-noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
-sign define vimspectorBP text=☛ texthl=Normal
-sign define vimspectorBPDisabled text=☞ texthl=Normal
-sign define vimspectorPC text=🔶 texthl=SpellBad
+" let g:vimspector_enable_mappings = 'HUMAN'
+" function! s:read_template_into_buffer(template)
+"     " has to be a function to avoid the extra space fzf#run insers otherwise
+"     execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
+" endfunction
+" command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
+"             \   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
+"             \   'down': 20,
+"             \   'sink': function('<sid>read_template_into_buffer')
+"             \ })
+" noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
+" sign define vimspectorBP text=☛ texthl=Normal
+" sign define vimspectorBPDisabled text=☞ texthl=Normal
+" sign define vimspectorPC text=🔶 texthl=SpellBad
 
 " let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
 
@@ -285,17 +313,6 @@ sign define vimspectorPC text=🔶 texthl=SpellBad
 "  syntax enable
 "  filetype plugin indent on
 "  
-"  coc extensions
-let g:coc_global_extensions = [
-	\ 'coc-json', 
-	\ 'coc-vimlsp',
-	\ 'coc-python',
-	\ 'coc-marketplace',
-    \ 'coc-explorer',
-    \ 'coc-translator',
-    \ 'coc-snippets',
-    \ 'coc-vimtex'
-	\ ]
 
 " "let g:lightline = {
 " "    \ 'colorscheme': 'snazzy'
@@ -409,7 +426,8 @@ endif
 
 " Theme
 syntax enable
-colorscheme OceanicNext
+" colorscheme OceanicNext
+colorscheme dracula
 " colorscheme nord
 
 " "Transparancy
@@ -561,4 +579,4 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 " inoreabbrev <expr> <bar><bar>
 
 " ==============================rnvimr==========================
-nnoremap <silent> ran :RnvimrToggle<CR>
+nnoremap <silent> <LEADER>ra :RnvimrToggle<CR>
