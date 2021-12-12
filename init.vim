@@ -9,6 +9,10 @@ set showcmd
 " set spell
 set spelllang=en,de
 
+" cursor auto jump to last place when opening a file
+" :help restore-cursor
+autocmd BufRead * autocmd FileType <buffer> ++once
+  \ if &ft !~# 'commit\|rebase' && line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif
 " autocmd TextChanged,TextChangedI <buffer> silent write
 
 " set foldmethod=syntax 
@@ -107,7 +111,7 @@ Plug 'mhinz/vim-startify'
 Plug 'mhartington/oceanic-next'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'kevinhwang91/rnvimr'
 Plug 'arcticicestudio/nord-vim'
@@ -330,15 +334,16 @@ nmap <leader>o :Files<CR>
 " =================================
 " syntax enable
 let g:tex_flavor = 'latex'
-let g:vimtex_quickfix_mode = 0
+" let g:vimtex_quickfix_mode = 0
 " let g:vimtex_general_viewer = 'zathura'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
 
-augroup vimtex
-  autocmd!
-  autocmd User VimtexEventView call b:vimtex.viewer.focus_vim()
-augroup END
+" after \lv auto foucus vim
+" augroup vimtex
+"   autocmd!
+"   autocmd User VimtexEventView call b:vimtex.viewer.focus_vim()
+" augroup END
 
 " default is 'nvr'
 " 2021-10-25: Better inverse search~
@@ -474,7 +479,7 @@ nnoremap <silent> <leader>c{ V{:call nerdcommenter#Comment('x', 'toggle')<CR>
 " =================================markdown-preview====================================
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 0
+let g:mkdp_auto_start = 1
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
@@ -505,7 +510,7 @@ let g:mkdp_open_ip = ''
 
 " specify browser to open preview page
 " default: ''
-let g:mkdp_browser = ''
+let g:mkdp_browser = 'google-chrome-stable'
 
 " set to 1, echo preview page url in command line when open preview page
 " default is 0
