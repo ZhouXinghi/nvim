@@ -9,6 +9,10 @@ set showcmd
 " set spell
 set spelllang=en,de
 
+" disable the stupid indent in parenteses
+" refer to /usr/share/nvim/runtime/indent/python.vim 
+let g:pyindent_disable_parentheses_indenting = 1
+
 " cursor auto jump to last place when opening a file
 " :help restore-cursor
 autocmd BufRead * autocmd FileType <buffer> ++once
@@ -26,14 +30,17 @@ set smartcase
 
 set clipboard+=unnamedplus
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4 
-set expandtab 
-set autoindent
+set tabstop=4           
+
+ " set softtabstop=4
+set shiftwidth=4
+set expandtab
+" set smartindent
+" set autoindent
 
 map s <nop>
-map S :w<CR>
+map <C-s> :w<CR>
+nmap S :w<CR>
 map Q :q<CR>					' exit
 map D :source $MYVIMRC<CR>			' use the init.vim
 
@@ -52,19 +59,17 @@ noremap N Nzz
 noremap <LEADER><CR> :nohlsearch<CR>		' no more highlight
 inoremap <C-h> <left>
 inoremap <c-l> <right>
-" inoremap ( ()<left>
-" inoremap () ()
-" inoremap " ""<left>
-" inoremap "" ""
-" inoremap [ []<left>
-" inoremap [] []
-" inoremap { {}<left>
-" inoremap {} {}
+" inoremap () ()<left>
+" inoremap ()) ()
+" inoremap "" ""<left>
+" inoremap """ ""
+" inoremap [] []<left>
+" inoremap []] []
+" inoremap {} {}<left>
+" inoremap {}} {}
 " -----------spell check 
 inoremap ;; <C-g>u<Esc>[s1z=`]a<C-g>u
 " break chain rule
-inoremap <space> <space><C-g>u
-inoremap <space> <space><C-g>u
 inoremap <space> <space><C-g>u
 
 " Copy to number 1 clipboard
@@ -117,6 +122,7 @@ Plug 'kevinhwang91/rnvimr'
 Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim', { 'as': 'dracula'}
 Plug 'ap/vim-css-color'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 "" Coc configuration
@@ -129,9 +135,9 @@ let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-sh',
     \ 'coc-jedi',
-    \ 'coc-pyright',
     \ 'coc-snippets',
-    \ 'coc-vimtex'
+    \ 'coc-vimtex',
+    \ 'coc-explorer',
     \ ]
 " scroll the floating preview window
 inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
@@ -143,6 +149,7 @@ inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(
     " \ 'coc-translator',
     " \ 'coc-snippets',
     " \ 'coc-vimtex'
+    " \ 'coc-pyright',
                 
 "
 "
@@ -252,7 +259,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 " " omap ac <Plug>(coc-classobj-a)
 " "
 " " coc-explorer
-" nmap <space>e <Cmd>CocCommand explorer<CR>
+nmap <space>e <Cmd>CocCommand explorer<CR>
 " nmap cc :CocCommand<CR>
 "
 " coc snippets
@@ -315,7 +322,7 @@ nmap <leader>o :Files<CR>
 
 "  packadd! vimspector
 "  syntax enable
-"  filetype plugin indent on
+" filetype plugin indent on
 "  
 
 " "let g:lightline = {
@@ -585,3 +592,4 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 
 " ==============================rnvimr==========================
 nnoremap <silent> <LEADER>ra :RnvimrToggle<CR>
+

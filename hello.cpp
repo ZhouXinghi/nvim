@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 int indf()
 {
@@ -10,6 +11,12 @@ int main()
     int nihao = 9;
     nihao = 2;
     indf();
+    printf("fa");
+
     return 0;
+}
+
+int a() {
+		return 0;
 }
 
