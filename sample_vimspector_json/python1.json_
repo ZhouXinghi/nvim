@@ -1,0 +1,37 @@
+{
+  "adapters": {
+    "debugpy": {
+      "command": [
+        "python",
+        "-m",
+        "debugpy.adapter"
+      ],
+      "name": "debugpy",
+      "configuration": {
+        "python": "python"
+      }
+    }
+  },
+  "configurations": {
+    "run - debugpy": {
+      "adapter": "debugpy",
+      "filetypes": [ "python" ],
+      "default": true,
+      "configuration": {
+        "request": "launch",
+        "type": "python",
+        "cwd": "${workspaceRoot}",
+        "program": "${file}",
+        "stopOnEntry": true,
+        "console": "externalTerminal",
+        "code": "import debugpy; print(debugpy.__version_)"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": ""
+        }
+      }
+    }
+  }
+}

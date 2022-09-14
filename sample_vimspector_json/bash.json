@@ -1,0 +1,11 @@
+{
+    "configurations": {
+        "bash_debug": {
+            "adapter": "vscode-bash",
+            "configuration": {
+                "request": "launch",
+                "program": "${file}"
+            }
+        }
+    }
+}

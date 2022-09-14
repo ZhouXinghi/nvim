@@ -1,0 +1,38 @@
+{
+    "configurations": {
+        "vscode-cpptools": {
+            "adapter": "vscode-cpptools",
+            "filetypes": [ "cpp", "c" ],
+            "configuration": {
+                "request": "launch",
+                "program": "${fileDirname}/${workspaceRoot}/${fileBasenameNoExtension}",
+                "args": ["*${ProgramArgs}"],
+                "cwd": "${workspaceRoot}",
+                "stopAtEntry": true,
+                "MIMode": "gdb"
+            }
+        }, 
+        "CodeLLDB": {
+            "adapter": "CodeLLDB",
+            "configuration": {
+                "type": "lldb",
+                "request": "launch",
+                "program": "${workspaceRoot}/${fileBasenameNoExtension}",
+                "cwd": "${workspaceRoot}",
+                "expressions": "native",
+                "stopOnEntry": true,
+                "args": ["*${ProgramArgs}"],
+                "stdio": ["in.txt", "out.txt", "err.txt"],
+                "terminal": "external"
+            },
+            "breakpoints": {
+                "exception": {
+                    "cpp_throw": "",
+                    "cpp_catch": ""
+                }
+            }
+        }
+
+    }
+}
+

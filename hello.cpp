@@ -12,6 +12,7 @@ int main()
     nihao = 2;
     indf();
     printf("fa");
+    printf("hello world!\n");
 
     return 0;
 }

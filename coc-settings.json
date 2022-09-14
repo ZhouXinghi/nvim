@@ -30,6 +30,8 @@
 		"variable": "\ue71b"
     },
     "explorer.file.showHiddenFiles": true,
-    "explorer.icon.enableNerdfont": true
+    "explorer.icon.enableNerdfont": true,
+    "yank.highlight.duration": 500,
+    "yank.enableCompletion": false
 }
 
