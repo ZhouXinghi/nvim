@@ -11,7 +11,7 @@ set number
 set scrolloff=8
 " set relativenumber
 set cursorline
-set nowrap
+set wrap
 set signcolumn=auto:1-9
 set showcmd
 
@@ -123,19 +123,21 @@ Plug 'vim-airline/vim-airline'
 Plug 'connorholyday/vim-snazzy'
 Plug 'junegunn/vim-peekaboo'   " to see the register
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'puremourning/vimspector'
+" Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
 " Plug 'SirVer/ult snips'
-Plug 'ZhouXinghi/vim-snippets'
+" Plug 'ZhouXinghi/vim-snippets'
 " Plug 'itchyny/vim-cursorword', { 'for': 'python' }
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-startify'
 Plug 'mhartington/oceanic-next'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown' }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
 Plug 'kevinhwang91/rnvimr'
 Plug 'arcticicestudio/nord-vim'
@@ -148,6 +150,13 @@ Plug 'mbbill/undotree'
 Plug 'gcmt/wildfire.vim'
 Plug 'szw/vim-maximizer'
 Plug 'vim-scripts/DeleteTrailingWhitespace'
+" Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+" Plug 'preservim/tagbar'
+" Plug 'ludovicchabant/vim-gutentags'
+Plug 'liuchengxu/vista.vim'
+" Plug 'simrat39/symbols-outline.nvim'
 call plug#end()
 
 "" Coc configuration
@@ -157,14 +166,15 @@ let g:coc_global_extensions = [
     \ 'coc-json',
     \ 'coc-vimlsp',
     \ 'coc-texlab',
-    \ 'coc-clangd',
     \ 'coc-sh',
-    \ 'coc-jedi',
     \ 'coc-snippets',
     \ 'coc-vimtex',
     \ 'coc-explorer',
     \ 'coc-yank',
     \ 'coc-cmake',
+    \ 'coc-clangd',
+    \ 'coc-jedi',
+    \ 'coc-pyright',
     \ ]
 
     " \ 'coc-python',
@@ -173,7 +183,6 @@ let g:coc_global_extensions = [
     " \ 'coc-translator',
     " \ 'coc-snippets',
     " \ 'coc-vimtex'
-    " \ 'coc-pyright',
                 
 "
 "
@@ -236,15 +245,15 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 "
 " " Use `[g` and `]g` to navigate diagnostics
 " " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
 "
 "
 " " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
 "
 " " Use gh to show documentation in preview window.
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
@@ -266,8 +275,8 @@ endfunction
 " nmap <leader>rn <Plug>(coc-rename)
 "
 " " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 "
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -290,14 +299,14 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 " " xmap ac <Plug>(coc-classobj-a)
 " " omap ac <Plug>(coc-classobj-a)
 " "
-" Remap <C-f> and <C-b> for scroll float windows/popups.
+" Remap <C-d> and <C-u> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+  nnoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+  inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+  vnoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 endif
 
 " Use CTRL-S for selections ranges.
@@ -337,8 +346,45 @@ let g:coc_snippet_prev = '<C-k>'
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
+" ====================================Leaderf 
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:LF_ShowHidden = 1
+let g:Lf_WorkingDirectoryMode = 'AF'
+let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
+" let g:Lf_StlColorscheme = 'powerline'
+" let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
+" let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
-" -----------------------------------------------
+noremap <leader>f :LeaderfSelf<cr>
+
+let g:Lf_ShortcutF = "<leader>fp"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>ff :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
+
+" noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+" noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+" xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+" noremap go :<C-U>Leaderf! rg --recall<CR>
+
+" should use `Leaderf gtags --update` first
+" let g:Lf_GtagsAutoGenerate = 0
+" let g:Lf_Gtagslabel = 'native-pygments'
+" noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+" noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+" noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+" noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+" noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>" -----------------------------------------------
 " -----------------------------------------------
 " -----------------------------------------------
 " fzf.vim
@@ -347,97 +393,97 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 " -----------------------------------------------
 " -----------------------------------------------
 
-nnoremap <leader>o :Files ~<CR>
-nnoremap <leader>p :Files<CR>
-nnoremap <leader>b :Buffers<CR>
+" nnoremap <leader>o :Files ~<CR>
+" nnoremap <leader>p :Files<CR>
+" nnoremap <leader>b :Buffers<CR>
 
 
-" -----------------------------------------------
-" -----------------------------------------------
-" -----------------------------------------------
-" Vimspector
-" -----------------------------------------------
-" -----------------------------------------------
-" -----------------------------------------------
-" -----------------------------------------------
-
-let g:vimspector_install_gadgets = [ 'debugpy' ]
-
-let g:vimspector_enable_mappings = 'HUMAN'
-function! s:read_template_into_buffer(template)
-    " has to be a function to avoid the extra space fzf#run insers otherwise
-    execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
-endfunction
-command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-            \   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
-            \   'down': 20,
-            \   'sink': function('<sid>read_template_into_buffer')
-            \ })
-noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
-
-nnoremap <leader>dl :call vimspector#Launch()<CR>
-nnoremap <leader>de :<C-U>call vimspector#ShowEvalBalloon( 0 )<CR>
-xnoremap <leader>de :<C-U>call vimspector#ShowEvalBalloon( 0 )<CR>
-" nnoremap <Leader>de <Plug>VimspectorBalloonEval
-" xnoremap <Leader>de <Plug>VimspectorBalloonEval
-nnoremap <leader>di :call vimspector#UpFrame()<CR>
-nnoremap <leader>do :call vimspector#DownFrame()<CR>
-nnoremap <leader>dx :call vimspector#Reset()<CR>
-" nnoremap <F3> :call vimspector#Stop()<CR>
-" nnoremap <F4> :call vimspector#Restart()<CR>
-" nnoremap <F5> :call vimspector#Continue()<CR>
-" nnoremap <F9> :call vimspector#ToggleBreakpoint()<CR>
-" nnoremap <F10> :call vimspector#StepOver()<CR>
-" nnoremap <F11>: call vimspector#StepInto()<CR>
-" nnoremap <F12>: call vimspector#StepOut()<CR>
-nnoremap <leader>rc :call vimspector#RunToCursor()<CR>
-let g:vimspector_sign_priority = {
-  \    'vimspectorBP':         300,
-  \    'vimspectorBPCond':     2,
-  \    'vimspectorBPLog':      2,
-  \    'vimspectorBPDisabled': 1,
-  \    'vimspectorPC':         999,
-  \ }
-sign define vimspectorBP text=☛ texthl=Normal
-sign define vimspectorBPDisabled text=☞ texthl=Normal
-sign define vimspectorPC text=🔶 texthl=SpellBad
-
-let g:vimspector_sidebar_width = 30
-" let g:vimspector_bottombar_height = 12
-" let g:vimspector_terminal_minwidth = 60
-let g:vimspector_terminal_maxwidth = 35
-
-fun GoToWindow(id)
-    call win_gotoid(a:id)
-endfun
-nnoremap <leader>dgc :call GoToWindow(g:vimspector_session_windows.code)<CR>
-nnoremap <leader>dgv :call GoToWindow(g:vimspector_session_windows.variables)<CR>
-nnoremap <leader>dgw :call GoToWindow(g:vimspector_session_windows.watches)<CR>
-nnoremap <leader>dgs :call GoToWindow(g:vimspector_session_windows.stack_trace)<CR>
-nnoremap <leader>dgo :call GoToWindow(g:vimspector_session_windows.output)<CR>
-nnoremap <leader>dgt :call GoToWindow(g:vimspector_session_windows.terminal)<CR>
-" nnoremap <leader>dms VimspectorLoadSession .%:t.session
-
-" autosave and load breakpoints
-" autocmd VimEnter * VimspectorLoadSession .%:t.session
-" autocmd VimLeave * VimspectorMkSession .%:t.session
-
-" let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
-" let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
-
-
-"  packadd! vimspector
-"  syntax enable
-" filetype plugin indent on
-"  
-
-" "let g:lightline = {
-" "    \ 'colorscheme': 'snazzy'
-" "    \ }
+" " -----------------------------------------------
+" " -----------------------------------------------
+" " -----------------------------------------------
+" " Vimspector
+" " -----------------------------------------------
+" " -----------------------------------------------
+" " -----------------------------------------------
+" " -----------------------------------------------
+"
+" let g:vimspector_install_gadgets = [ 'debugpy' ]
+"
+" let g:vimspector_enable_mappings = 'HUMAN'
+" function! s:read_template_into_buffer(template)
+"     " has to be a function to avoid the extra space fzf#run insers otherwise
+"     execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
+" endfunction
+" command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
+"             \   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
+"             \   'down': 20,
+"             \   'sink': function('<sid>read_template_into_buffer')
+"             \ })
+" noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
+"
+" nnoremap <leader>dl :call vimspector#Launch()<CR>
+" nnoremap <leader>de :<C-U>call vimspector#ShowEvalBalloon( 0 )<CR>
+" xnoremap <leader>de :<C-U>call vimspector#ShowEvalBalloon( 0 )<CR>
+" " nnoremap <Leader>de <Plug>VimspectorBalloonEval
+" " xnoremap <Leader>de <Plug>VimspectorBalloonEval
+" nnoremap <leader>di :call vimspector#UpFrame()<CR>
+" nnoremap <leader>do :call vimspector#DownFrame()<CR>
+" nnoremap <leader>dx :call vimspector#Reset()<CR>
+" " nnoremap <F3> :call vimspector#Stop()<CR>
+" " nnoremap <F4> :call vimspector#Restart()<CR>
+" " nnoremap <F5> :call vimspector#Continue()<CR>
+" " nnoremap <F9> :call vimspector#ToggleBreakpoint()<CR>
+" " nnoremap <F10> :call vimspector#StepOver()<CR>
+" " nnoremap <F11>: call vimspector#StepInto()<CR>
+" " nnoremap <F12>: call vimspector#StepOut()<CR>
+" nnoremap <leader>rc :call vimspector#RunToCursor()<CR>
+" let g:vimspector_sign_priority = {
+"   \    'vimspectorBP':         300,
+"   \    'vimspectorBPCond':     2,
+"   \    'vimspectorBPLog':      2,
+"   \    'vimspectorBPDisabled': 1,
+"   \    'vimspectorPC':         999,
+"   \ }
+" sign define vimspectorBP text=☛ texthl=Normal
+" sign define vimspectorBPDisabled text=☞ texthl=Normal
+" sign define vimspectorPC text=🔶 texthl=SpellBad
+"
+" let g:vimspector_sidebar_width = 30
+" " let g:vimspector_bottombar_height = 12
+" " let g:vimspector_terminal_minwidth = 60
+" let g:vimspector_terminal_maxwidth = 35
+"
+" fun GoToWindow(id)
+"     call win_gotoid(a:id)
+" endfun
+" nnoremap <leader>dgc :call GoToWindow(g:vimspector_session_windows.code)<CR>
+" nnoremap <leader>dgv :call GoToWindow(g:vimspector_session_windows.variables)<CR>
+" nnoremap <leader>dgw :call GoToWindow(g:vimspector_session_windows.watches)<CR>
+" nnoremap <leader>dgs :call GoToWindow(g:vimspector_session_windows.stack_trace)<CR>
+" nnoremap <leader>dgo :call GoToWindow(g:vimspector_session_windows.output)<CR>
+" nnoremap <leader>dgt :call GoToWindow(g:vimspector_session_windows.terminal)<CR>
+" " nnoremap <leader>dms VimspectorLoadSession .%:t.session
+"
+" " autosave and load breakpoints
+" " autocmd VimEnter * VimspectorLoadSession .%:t.session
+" " autocmd VimLeave * VimspectorMkSession .%:t.session
+"
+" " let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+" " let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+"
+"
+" "  packadd! vimspector
+" "  syntax enable
+" " filetype plugin indent on
 " "
-" "colorscheme snazzy
-
-
+"
+" " "let g:lightline = {
+" " "    \ 'colorscheme': 'snazzy'
+" " "    \ }
+" " "
+" " "colorscheme snazzy
+"
+"
 " =================================
 " =================================
 " =================================
@@ -453,10 +499,10 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_automatic = 0
 
 " after \lv auto foucus vim
-" augroup vimtex
-"   autocmd!
-"   autocmd User VimtexEventView call b:vimtex.viewer.focus_vim()
-" augroup END
+augroup vimtex
+  autocmd!
+  autocmd User VimtexEventView call b:vimtex.viewer.xdo_focus_vim()
+augroup END
 
 " default is 'nvr'
 " 2021-10-25: Better inverse search~
@@ -747,6 +793,7 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:AutoPairsMapCh = 0
 let g:AutoPairsFlyMode  = 1
 let g:AutoPairsShortcutBackInsert = '<C-k>'
+" let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''", "<":">"}
 
 "=====================================coc-yank 
 nnoremap <leader>y :<C-u>CocList -A --normal yank<CR>
@@ -755,3 +802,45 @@ source ~/.config/nvim/test.vim
 
 "=====================================DeleteTrailingWhitespace 
 nnoremap <leader>ds :DeleteTrailingWhitespace<CR>
+
+" ;====================================== treesitter
+lua require('treesitter')
+
+" " =========================================tagbar
+" nnoremap <leader>t :TagbarToggle<CR>
+" let tagbar_width = 32
+
+" ======================================== vista
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+nnoremap <leader>t :Vista!!<CR>
+let g:vista_default_executive = 'ctags'
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_highlight_whole_line = 1
+let g:vista#renderer#enable_icon = 1
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
+
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+" let g:vista_executive_for = {
+"   \ 'cpp': 'vim_lsp',
+"   \ 'php': 'vim_lsp',
+"   \ }
+
