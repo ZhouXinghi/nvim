@@ -125,8 +125,8 @@ Plug 'junegunn/vim-peekaboo'   " to see the register
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
-" Plug 'SirVer/ult snips'
-" Plug 'ZhouXinghi/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'ZhouXinghi/vim-snippets'
 " Plug 'itchyny/vim-cursorword', { 'for': 'python' }
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for': 'python' }
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -167,7 +167,6 @@ let g:coc_global_extensions = [
     \ 'coc-vimlsp',
     \ 'coc-texlab',
     \ 'coc-sh',
-    \ 'coc-snippets',
     \ 'coc-vimtex',
     \ 'coc-explorer',
     \ 'coc-yank',
@@ -177,6 +176,7 @@ let g:coc_global_extensions = [
     \ 'coc-pyright',
     \ ]
 
+    " \ 'coc-snippets',
     " \ 'coc-python',
     " \ 'coc-marketplace',
     " \ 'coc-explorer',
@@ -326,25 +326,25 @@ nnoremap <silent><nowait> <space><space>e  :<C-u>CocList extensions<cr>
 nnoremap <space>e <Cmd>CocCommand explorer<CR>
 " nmap cc :CocCommand<CR>
 "
-" coc snippets
-
-" Use <C-j> for trigger snippet expand.
-imap <C-j> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <tab> <Plug>(coc-snippets-select)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<C-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<C-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-" imap <tab> <Plug>(coc-snippets-expand-jump)
-
-" Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)
+" " coc snippets
+"
+" " Use <C-j> for trigger snippet expand.
+" imap <C-j> <Plug>(coc-snippets-expand)
+"
+" " Use <C-j> for select text for visual placeholder of snippet.
+" vmap <tab> <Plug>(coc-snippets-select)
+"
+" " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+" let g:coc_snippet_next = '<C-j>'
+"
+" " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+" let g:coc_snippet_prev = '<C-k>'
+"
+" " Use <C-j> for both expand and jump (make expand higher priority.)
+" " imap <tab> <Plug>(coc-snippets-expand-jump)
+"
+" " Use <leader>x for convert visual selected code to snippet
+" xmap <leader>x  <Plug>(coc-convert-snippet)
 
 " ====================================Leaderf 
 " don't show the help in normal mode
@@ -577,9 +577,9 @@ hi clear Conceal
 " =============================
 " =============================
 " =============================
-" let g:UltiSnipsExpandTrigger='<s-tab>'
-" let g:UltiSnipsJumpForwardTrigger='<tab>'
-" let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+let g:UltiSnipsExpandTrigger='<c-j>'
+let g:UltiSnipsJumpForwardTrigger='<c-j>'
+let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 " 
 "
 "=======oceanic-next============
