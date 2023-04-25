@@ -157,6 +157,7 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " Plug 'ludovicchabant/vim-gutentags'
 Plug 'liuchengxu/vista.vim'
 " Plug 'simrat39/symbols-outline.nvim'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 
 "" Coc configuration
@@ -842,5 +843,7 @@ autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 " let g:vista_executive_for = {
 "   \ 'cpp': 'vim_lsp',
 "   \ 'php': 'vim_lsp',
-"   \ }
 
+" ======================================== indentLine
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+" let g:indentLine_char = 'c
